@@ -19,27 +19,40 @@ class HomeScreen extends StatelessWidget {
           title: const Text('Time Tracking'),
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(48),
-            child: Theme(
-              data: Theme.of(context).copyWith(
-                tabBarTheme: const TabBarTheme(
+            child: DefaultTextStyle(
+              style: const TextStyle(color: Colors.white),
+              child: Theme(
+                data: Theme.of(context).copyWith(
+                  colorScheme: Theme.of(context).colorScheme.copyWith(
+                    onSurface: Colors.white,
+                    onPrimary: Colors.white,
+                  ),
+                  tabBarTheme: const TabBarTheme(
+                    labelColor: Colors.white,
+                    unselectedLabelColor: Colors.white70,
+                    indicatorColor: Colors.yellow,
+                    labelStyle: TextStyle(color: Colors.white, fontSize: 14),
+                    unselectedLabelStyle: TextStyle(color: Colors.white70, fontSize: 14),
+                  ),
+                ),
+                child: TabBar(
+                  tabs: const [
+                    Tab(
+                      icon: Icon(Icons.list, color: Colors.white),
+                      text: 'All Entries',
+                    ),
+                    Tab(
+                      icon: Icon(Icons.group_work, color: Colors.white),
+                      text: 'Grouped by Projects',
+                    ),
+                  ],
                   labelColor: Colors.white,
                   unselectedLabelColor: Colors.white70,
                   indicatorColor: Colors.yellow,
-                  labelStyle: TextStyle(color: Colors.white, fontSize: 14),
-                  unselectedLabelStyle: TextStyle(color: Colors.white70, fontSize: 14),
+                  labelStyle: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500),
+                  unselectedLabelStyle: const TextStyle(color: Colors.white70, fontSize: 14),
+                  overlayColor: WidgetStateProperty.all(Colors.transparent),
                 ),
-              ),
-              child: TabBar(
-                tabs: const [
-                  Tab(icon: Icon(Icons.list), text: 'All Entries'),
-                  Tab(icon: Icon(Icons.group_work), text: 'Grouped by Projects'),
-                ],
-                labelColor: Colors.white,
-                unselectedLabelColor: Colors.white70,
-                indicatorColor: Colors.yellow,
-                labelStyle: const TextStyle(color: Colors.white, fontSize: 14),
-                unselectedLabelStyle: const TextStyle(color: Colors.white70, fontSize: 14),
-                overlayColor: WidgetStateProperty.all(Colors.transparent),
               ),
             ),
           ),
