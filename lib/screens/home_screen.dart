@@ -34,9 +34,19 @@ class HomeScreen extends StatelessWidget {
             children: [
               DrawerHeader(
                 decoration: const BoxDecoration(color: Color(0xFF008080)),
-                child: const Text(
-                  'Menu',
-                  style: TextStyle(color: Colors.white, fontSize: 24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    const Text(
+                      'Time Tracking',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
               ),
               ListTile(
