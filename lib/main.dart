@@ -42,6 +42,13 @@ class TimeTrackerApp extends StatelessWidget {
           foregroundColor: Colors.white,
           elevation: 0,
         ),
+        tabBarTheme: const TabBarTheme(
+          labelColor: Colors.white,
+          unselectedLabelColor: Colors.white70,
+          indicatorColor: Colors.yellow,
+          labelStyle: TextStyle(color: Colors.white),
+          unselectedLabelStyle: TextStyle(color: Colors.white70),
+        ),
         floatingActionButtonTheme: FloatingActionButtonThemeData(
           backgroundColor: yellowFAB,
           foregroundColor: Colors.black87,

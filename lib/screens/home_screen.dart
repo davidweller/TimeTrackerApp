@@ -19,16 +19,31 @@ class HomeScreen extends StatelessWidget {
           title: const Text('Time Tracking'),
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(48),
-            child: TabBar(
-              tabs: const [
-                Tab(icon: Icon(Icons.list, color: Colors.white), text: 'All Entries'),
-                Tab(icon: Icon(Icons.group_work, color: Colors.white), text: 'Grouped by Projects'),
-              ],
-              labelColor: Colors.white,
-              unselectedLabelColor: Colors.white70,
-              indicatorColor: Colors.yellow,
-              labelStyle: const TextStyle(color: Colors.white),
-              unselectedLabelStyle: const TextStyle(color: Colors.white70),
+            child: Material(
+              color: Colors.transparent,
+              child: TabBar(
+                tabs: [
+                  Tab(
+                    icon: const Icon(Icons.list, color: Colors.white),
+                    child: const Text(
+                      'All Entries',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  Tab(
+                    icon: const Icon(Icons.group_work, color: Colors.white),
+                    child: const Text(
+                      'Grouped by Projects',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ],
+                labelColor: Colors.white,
+                unselectedLabelColor: Colors.white70,
+                indicatorColor: Colors.yellow,
+                labelStyle: const TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+                unselectedLabelStyle: const TextStyle(color: Colors.white70),
+              ),
             ),
           ),
         ),
