@@ -43,6 +43,7 @@ class _AddTimeEntryScreenState extends State<AddTimeEntryScreen> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<TimeEntryProvider>(context);
+    final dateFormat = DateFormat('MMM dd, yyyy');
 
     return Scaffold(
       appBar: AppBar(title: const Text('Add Time Entry')),
@@ -54,51 +55,69 @@ class _AddTimeEntryScreenState extends State<AddTimeEntryScreen> {
             children: <Widget>[
               const SizedBox(height: 10),
               
-              // Project Dropdown
-              DropdownButtonFormField<String>(
-                value: projectId,
-                decoration: const InputDecoration(
-                  labelText: 'Project',
-                  border: OutlineInputBorder(),
-                ),
-                items: provider.projects.map((p) => DropdownMenuItem(
-                  value: p.id,
-                  child: Text(p.name),
-                )).toList(),
-                onChanged: (val) => setState(() => projectId = val),
-                validator: (value) => value == null ? 'Select a project' : null,
+              // Project Selection - List
+              const Text(
+                'Project',
+                style: TextStyle(fontSize: 14, color: Colors.grey),
               ),
+              const SizedBox(height: 8),
+              if (projectId != null)
+                Text(
+                  provider.getProjectName(projectId!) ?? '',
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              const SizedBox(height: 8),
+              ...provider.projects.map((project) {
+                return ListTile(
+                  title: Text(project.name),
+                  onTap: () {
+                    setState(() {
+                      projectId = project.id;
+                      taskId = null; // Reset task when project changes
+                    });
+                  },
+                  selected: projectId == project.id,
+                  selectedTileColor: Colors.grey[200],
+                );
+              }).toList(),
 
+              const Divider(),
               const SizedBox(height: 16),
 
-              // Task Dropdown
-              DropdownButtonFormField<String>(
-                value: taskId,
-                decoration: const InputDecoration(
-                  labelText: 'Task',
-                  border: OutlineInputBorder(),
+              // Task Selection - Radio Buttons
+              if (projectId != null) ...[
+                const Text(
+                  'Task',
+                  style: TextStyle(fontSize: 14, color: Colors.grey),
                 ),
-                items: provider.tasks.map((t) => DropdownMenuItem(
-                  value: t.id,
-                  child: Text(t.name),
-                )).toList(),
-                onChanged: (val) => setState(() => taskId = val),
-                validator: (value) => value == null ? 'Select a task' : null,
-              ),
-
-              const SizedBox(height: 16),
+                const SizedBox(height: 8),
+                ...provider.tasks.map((task) {
+                  return RadioListTile<String>(
+                    title: Text(task.name),
+                    value: task.id,
+                    groupValue: taskId,
+                    onChanged: (value) {
+                      setState(() {
+                        taskId = value;
+                      });
+                    },
+                  );
+                }).toList(),
+                const SizedBox(height: 16),
+              ],
 
               // Date Picker
-              InkWell(
-                onTap: () => _selectDate(context),
-                child: InputDecorator(
-                  decoration: const InputDecoration(
-                    labelText: 'Date',
-                    border: OutlineInputBorder(),
-                    suffixIcon: Icon(Icons.calendar_today),
-                  ),
-                  child: Text(DateFormat('yyyy-MM-dd').format(date)),
-                ),
+              const Text(
+                'Date:',
+                style: TextStyle(fontSize: 14),
+              ),
+              const SizedBox(height: 4),
+              Text(dateFormat.format(date)),
+              const SizedBox(height: 8),
+              OutlinedButton.icon(
+                onPressed: () => _selectDate(context),
+                icon: const Icon(Icons.calendar_today),
+                label: const Text('Select Date'),
               ),
 
               const SizedBox(height: 16),
@@ -107,7 +126,7 @@ class _AddTimeEntryScreenState extends State<AddTimeEntryScreen> {
               TextFormField(
                 controller: _timeController,
                 decoration: const InputDecoration(
-                  labelText: 'Total Time (hours)',
+                  labelText: 'Total Time (in hours)',
                   border: OutlineInputBorder(),
                 ),
                 keyboardType: const TextInputType.numberWithOptions(decimal: true),
@@ -126,7 +145,7 @@ class _AddTimeEntryScreenState extends State<AddTimeEntryScreen> {
               TextFormField(
                 controller: _notesController,
                 decoration: const InputDecoration(
-                  labelText: 'Notes',
+                  labelText: 'Note',
                   border: OutlineInputBorder(),
                 ),
                 maxLines: 3,
@@ -137,6 +156,18 @@ class _AddTimeEntryScreenState extends State<AddTimeEntryScreen> {
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
+                    if (projectId == null) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Please select a project')),
+                      );
+                      return;
+                    }
+                    if (taskId == null) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Please select a task')),
+                      );
+                      return;
+                    }
                     final totalTime = double.parse(_timeController.text);
                     provider.addTimeEntry(TimeEntry(
                       id: _uuid.v4(),
@@ -152,7 +183,7 @@ class _AddTimeEntryScreenState extends State<AddTimeEntryScreen> {
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 16),
                 ),
-                child: const Text('Save Entry'),
+                child: const Text('Save Time Entry'),
               )
             ],
           ),

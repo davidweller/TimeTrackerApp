@@ -10,6 +10,7 @@ class TaskManagementScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Manage Tasks'),
+        backgroundColor: const Color(0xFF800080),
       ),
       body: Consumer<TimeEntryProvider>(
         builder: (context, provider, child) {
@@ -34,28 +35,11 @@ class TaskManagementScreen extends StatelessWidget {
                 child: ListTile(
                   leading: const Icon(Icons.check_circle_outline),
                   title: Text(task.name),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.edit),
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (context) => EditTaskDialog(
-                              taskId: task.id,
-                              currentName: task.name,
-                            ),
-                          );
-                        },
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.delete, color: Colors.red),
-                        onPressed: () {
-                          _showDeleteConfirmation(context, provider, task.id, task.name);
-                        },
-                      ),
-                    ],
+                  trailing: IconButton(
+                    icon: const Icon(Icons.delete, color: Colors.red),
+                    onPressed: () {
+                      _showDeleteConfirmation(context, provider, task.id, task.name);
+                    },
                   ),
                 ),
               );

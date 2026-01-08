@@ -8,7 +8,10 @@ class ProjectManagementScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Manage Projects')),
+      appBar: AppBar(
+        title: const Text('Manage Projects'),
+        backgroundColor: const Color(0xFF800080),
+      ),
       body: Consumer<TimeEntryProvider>(
         builder: (context, provider, child) {
           if (provider.projects.isEmpty) {
@@ -32,28 +35,11 @@ class ProjectManagementScreen extends StatelessWidget {
                 child: ListTile(
                   leading: const Icon(Icons.folder),
                   title: Text(project.name),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.edit),
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (context) => EditProjectDialog(
-                              projectId: project.id,
-                              currentName: project.name,
-                            ),
-                          );
-                        },
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.delete, color: Colors.red),
-                        onPressed: () {
-                          _showDeleteConfirmation(context, provider, project.id, project.name);
-                        },
-                      ),
-                    ],
+                  trailing: IconButton(
+                    icon: const Icon(Icons.delete, color: Colors.red),
+                    onPressed: () {
+                      _showDeleteConfirmation(context, provider, project.id, project.name);
+                    },
                   ),
                 ),
               );

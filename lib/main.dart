@@ -20,15 +20,33 @@ void main() async {
 class TimeTrackerApp extends StatelessWidget {
   const TimeTrackerApp({super.key});
 
+  // Color constants matching reference design
+  static const Color tealColor = Color(0xFF008080);
+  static const Color purpleColor = Color(0xFF800080);
+  static const Color yellowFAB = Color(0xFFFFD700);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Time Tracker',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
         useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: tealColor,
+          brightness: Brightness.light,
+          primary: tealColor,
+          secondary: purpleColor,
+        ),
+        appBarTheme: AppBarTheme(
+          backgroundColor: tealColor,
+          foregroundColor: Colors.white,
+          elevation: 0,
+        ),
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+          backgroundColor: yellowFAB,
+          foregroundColor: Colors.black87,
+        ),
       ),
-      // Setting this to HomeScreen replaces the default counter demo.
       home: HomeScreen(),
       debugShowCheckedModeBanner: false,
     );

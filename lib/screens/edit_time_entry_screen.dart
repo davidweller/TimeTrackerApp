@@ -104,16 +104,17 @@ class _EditTimeEntryScreenState extends State<EditTimeEntryScreen> {
               const SizedBox(height: 16),
 
               // Date Picker
-              InkWell(
-                onTap: () => _selectDate(context),
-                child: InputDecorator(
-                  decoration: const InputDecoration(
-                    labelText: 'Date',
-                    border: OutlineInputBorder(),
-                    suffixIcon: Icon(Icons.calendar_today),
-                  ),
-                  child: Text(DateFormat('yyyy-MM-dd').format(date)),
-                ),
+              const Text(
+                'Date:',
+                style: TextStyle(fontSize: 14),
+              ),
+              const SizedBox(height: 4),
+              Text(DateFormat('MMM dd, yyyy').format(date)),
+              const SizedBox(height: 8),
+              OutlinedButton.icon(
+                onPressed: () => _selectDate(context),
+                icon: const Icon(Icons.calendar_today),
+                label: const Text('Select Date'),
               ),
 
               const SizedBox(height: 16),

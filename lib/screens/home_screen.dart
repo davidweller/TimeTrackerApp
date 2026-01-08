@@ -5,7 +5,6 @@ import 'package:collection/collection.dart';
 import '../models/time_entry.dart';
 import '../providers/time_entry_provider.dart';
 import 'add_time_entry_screen.dart';
-import 'edit_time_entry_screen.dart';
 import 'project_management_screen.dart';
 import 'task_management_screen.dart';
 
@@ -17,11 +16,11 @@ class HomeScreen extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Time Entries'),
+          title: const Text('Time Tracking'),
           bottom: const TabBar(
             tabs: [
               Tab(icon: Icon(Icons.list), text: 'All Entries'),
-              Tab(icon: Icon(Icons.group_work), text: 'By Project'),
+              Tab(icon: Icon(Icons.group_work), text: 'Grouped by Projects'),
             ],
           ),
         ),
@@ -30,21 +29,16 @@ class HomeScreen extends StatelessWidget {
           child: ListView(
             padding: EdgeInsets.zero,
             children: [
-              const DrawerHeader(
-                decoration: BoxDecoration(color: Colors.blue),
-                child: Text(
-                  'Time Tracker Menu',
+              DrawerHeader(
+                decoration: const BoxDecoration(color: Color(0xFF008080)),
+                child: const Text(
+                  'Menu',
                   style: TextStyle(color: Colors.white, fontSize: 24),
                 ),
               ),
               ListTile(
-                leading: const Icon(Icons.home),
-                title: const Text('Home'),
-                onTap: () => Navigator.pop(context),
-              ),
-              ListTile(
                 leading: const Icon(Icons.folder),
-                title: const Text('Manage Projects'),
+                title: const Text('Projects'),
                 onTap: () {
                   Navigator.pop(context);
                   Navigator.push(
@@ -55,7 +49,7 @@ class HomeScreen extends StatelessWidget {
               ),
               ListTile(
                 leading: const Icon(Icons.check_circle),
-                title: const Text('Manage Tasks'),
+                title: const Text('Tasks'),
                 onTap: () {
                   Navigator.pop(context);
                   Navigator.push(
@@ -92,13 +86,35 @@ class HomeScreen extends StatelessWidget {
     return Consumer<TimeEntryProvider>(
       builder: (context, provider, child) {
         if (provider.entries.isEmpty) {
-          return const Center(
+          return Center(
             child: Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Text(
-                'No entries found.\nTap the + button to add a time entry.',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16),
+              padding: const EdgeInsets.all(32.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.access_time_outlined,
+                    size: 80,
+                    color: Colors.grey[400],
+                  ),
+                  const SizedBox(height: 16),
+                  const Text(
+                    'No time entries yet!',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Tap the + button to add your first entry.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                ],
               ),
             ),
           );
@@ -109,53 +125,39 @@ class HomeScreen extends StatelessWidget {
             final entry = provider.entries[index];
             final projectName = provider.getProjectName(entry.projectId) ?? 'Unknown Project';
             final taskName = provider.getTaskName(entry.taskId) ?? 'Unknown Task';
-            final dateFormat = DateFormat('yyyy-MM-dd');
+            final dateFormat = DateFormat('MMM dd, yyyy');
             
             return Card(
               margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
               child: ListTile(
-                leading: const CircleAvatar(child: Icon(Icons.access_time)),
                 title: Text(
                   '$projectName - $taskName',
-                  style: const TextStyle(fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF008080),
+                  ),
                 ),
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Time: ${entry.totalTime} hours'),
+                    Text('Total Time: ${entry.totalTime} hours'),
                     Text('Date: ${dateFormat.format(entry.date)}'),
                     if (entry.notes.isNotEmpty)
                       Padding(
                         padding: const EdgeInsets.only(top: 4.0),
                         child: Text(
-                          entry.notes,
+                          'Note: ${entry.notes}',
                           style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                         ),
                       ),
                   ],
                 ),
                 isThreeLine: true,
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.edit),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => EditTimeEntryScreen(entry: entry),
-                          ),
-                        );
-                      },
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.delete, color: Colors.red),
-                      onPressed: () {
-                        _showDeleteConfirmation(context, provider, entry);
-                      },
-                    ),
-                  ],
+                trailing: IconButton(
+                  icon: const Icon(Icons.delete, color: Colors.red),
+                  onPressed: () {
+                    _showDeleteConfirmation(context, provider, entry);
+                  },
                 ),
               ),
             );
@@ -170,13 +172,35 @@ class HomeScreen extends StatelessWidget {
     return Consumer<TimeEntryProvider>(
       builder: (context, provider, child) {
         if (provider.entries.isEmpty) {
-          return const Center(
+          return Center(
             child: Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Text(
-                'No data to group.\nAdd some time entries to see them grouped by project.',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16),
+              padding: const EdgeInsets.all(32.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.folder_outlined,
+                    size: 80,
+                    color: Colors.grey[400],
+                  ),
+                  const SizedBox(height: 16),
+                  const Text(
+                    'No time entries yet!',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Tap the + button to add your first entry.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                ],
               ),
             ),
           );
@@ -184,24 +208,42 @@ class HomeScreen extends StatelessWidget {
 
         // Uses the collection package to group entries by projectId.
         final groupedEntries = groupBy(provider.entries, (TimeEntry entry) => entry.projectId);
+        final dateFormat = DateFormat('MMM dd, yyyy');
         
         return ListView(
           children: groupedEntries.entries.map((group) {
             final projectId = group.key;
             final projectName = provider.getProjectName(projectId) ?? 'Unknown Project';
-            // Sums the totalTime for all entries in this project group.
-            final totalHours = group.value.fold<double>(0, (sum, item) => sum + item.totalTime);
-            final entryCount = group.value.length;
+            final entries = group.value;
 
             return Card(
               margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              child: ListTile(
-                leading: const CircleAvatar(child: Icon(Icons.folder)),
-                title: Text(
-                  projectName,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      projectName,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        color: Color(0xFF008080),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    ...entries.map((entry) {
+                      final taskName = provider.getTaskName(entry.taskId) ?? 'Unknown Task';
+                      return Padding(
+                        padding: const EdgeInsets.only(left: 8.0, top: 4.0),
+                        child: Text(
+                          '- $taskName: ${entry.totalTime} hours (${dateFormat.format(entry.date)})',
+                          style: const TextStyle(fontSize: 14),
+                        ),
+                      );
+                    }).toList(),
+                  ],
                 ),
-                subtitle: Text('Total: ${totalHours.toStringAsFixed(2)} hours ($entryCount ${entryCount == 1 ? 'entry' : 'entries'})'),
               ),
             );
           }).toList(),
