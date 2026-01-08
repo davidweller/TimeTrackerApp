@@ -17,11 +17,14 @@ class HomeScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Time Tracking'),
-          bottom: const TabBar(
-            tabs: [
+          bottom: TabBar(
+            tabs: const [
               Tab(icon: Icon(Icons.list), text: 'All Entries'),
               Tab(icon: Icon(Icons.group_work), text: 'Grouped by Projects'),
             ],
+            labelColor: Colors.white,
+            unselectedLabelColor: Colors.white70,
+            indicatorColor: Colors.white,
           ),
         ),
         // Side menu for navigating to Project and Task management.
