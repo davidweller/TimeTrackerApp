@@ -27,7 +27,7 @@ class HomeScreen extends StatelessWidget {
                     onSurface: Colors.white,
                     onPrimary: Colors.white,
                   ),
-                  tabBarTheme: const TabBarTheme(
+                  tabBarTheme: const TabBarThemeData(
                     labelColor: Colors.white,
                     unselectedLabelColor: Colors.white70,
                     indicatorColor: Colors.yellow,
