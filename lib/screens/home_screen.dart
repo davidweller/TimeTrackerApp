@@ -19,30 +19,27 @@ class HomeScreen extends StatelessWidget {
           title: const Text('Time Tracking'),
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(48),
-            child: Material(
-              color: Colors.transparent,
+            child: Theme(
+              data: Theme.of(context).copyWith(
+                tabBarTheme: const TabBarTheme(
+                  labelColor: Colors.white,
+                  unselectedLabelColor: Colors.white70,
+                  indicatorColor: Colors.yellow,
+                  labelStyle: TextStyle(color: Colors.white, fontSize: 14),
+                  unselectedLabelStyle: TextStyle(color: Colors.white70, fontSize: 14),
+                ),
+              ),
               child: TabBar(
-                tabs: [
-                  Tab(
-                    icon: const Icon(Icons.list, color: Colors.white),
-                    child: const Text(
-                      'All Entries',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                  Tab(
-                    icon: const Icon(Icons.group_work, color: Colors.white),
-                    child: const Text(
-                      'Grouped by Projects',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
+                tabs: const [
+                  Tab(icon: Icon(Icons.list), text: 'All Entries'),
+                  Tab(icon: Icon(Icons.group_work), text: 'Grouped by Projects'),
                 ],
                 labelColor: Colors.white,
                 unselectedLabelColor: Colors.white70,
                 indicatorColor: Colors.yellow,
-                labelStyle: const TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
-                unselectedLabelStyle: const TextStyle(color: Colors.white70),
+                labelStyle: const TextStyle(color: Colors.white, fontSize: 14),
+                unselectedLabelStyle: const TextStyle(color: Colors.white70, fontSize: 14),
+                overlayColor: WidgetStateProperty.all(Colors.transparent),
               ),
             ),
           ),
