@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
-import 'package:localstorage/localstorage.dart';
 import 'package:uuid/uuid.dart';
+import 'package:localstorage/localstorage.dart';
 import '../models/time_entry.dart';
 
 class TimeEntryProvider with ChangeNotifier {
